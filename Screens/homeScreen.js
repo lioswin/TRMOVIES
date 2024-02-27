@@ -40,7 +40,7 @@ export default function HomeScreen() {
                 <MovieList title="Upcoming" data={upcoming}/>
 
                  {/* Top Rated Movies row*/}
-                 <MovieList title="Upcoming" data={upcoming}/>
+                 <MovieList title="Top Rated" data={topRated}/>
             </ScrollView>
         </View>
     );
