@@ -1,19 +1,24 @@
 import React from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View,Dimensions } from 'react-native'
+import { Image, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View, Dimensions } from 'react-native'
 import { styles } from '../theme'
 import { useNavigation } from '@react-navigation/native';
 
 var { width, height } = Dimensions.get('window');
-export default function MovieList({ title, data }) {
+export default function MovieList({ title, data, hideSeeAll }) {
     let movieName = 'Dune Part two';
     const navigation = useNavigation();
     return (
         <View className="mb-8 space-y-4">
             <View className="mx-4 flex-row justify-between items-center">
                 <Text className="text-white text-xl">{title}</Text>
-                <TouchableOpacity>
-                    <Text style={styles.text} className="text-lg">See All</Text>
-                </TouchableOpacity>
+                {
+                    !hideSeeAll && (
+                        <TouchableOpacity>
+                            <Text style={styles.text} className="text-lg">See All</Text>
+                        </TouchableOpacity>
+                    )
+                }
+
             </View>
             {/* movie row */}
 
@@ -27,7 +32,7 @@ export default function MovieList({ title, data }) {
                         return (
                             <TouchableWithoutFeedback
                                 key={index}
-                                onPress={() => navigation.navigate('Movie', item)}
+                                onPress={() => navigation.push('Movie', item)}
                             >
                                 <View className="space-y-1 mr-4">
                                     <Image
@@ -40,8 +45,8 @@ export default function MovieList({ title, data }) {
                                     />
                                     <Text className="text-neutral-300 ml-1">
                                         {
-                                        movieName.length>14?movieName.slice(0,14)+"...":movieName
-                                    }
+                                            movieName.length > 14 ? movieName.slice(0, 14) + "..." : movieName
+                                        }
                                     </Text>
                                 </View>
                             </TouchableWithoutFeedback>
