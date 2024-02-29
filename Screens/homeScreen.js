@@ -4,18 +4,43 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { styles } from '../theme';
 import TrendingMovies from '../components/trendingMovies';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MovieList from '../components/MovieList';
 import { useNavigation } from '@react-navigation/native';
 import Loading from './loading';
+import { fetchTopRatedMovies, fetchTrendingMovies, fetchUpcomingMovies } from '../api/movieDb';
 
 const ios = Platform.OS == "ios"
 export default function HomeScreen() {
-    const [trending, setTrending] = useState([1, 2, 3]);
-    const [upcoming, setUpcoming] = useState([1, 2, 3]);
-    const [topRated, setToprated] = useState([1, 2, 3]);
-    const [loading, setLoading] = useState(false);
+    const [trending, setTrending] = useState([]);
+    const [upcoming, setUpcoming] = useState([]);
+    const [topRated, setToprated] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigation = useNavigation();
+
+    useEffect(() => {
+        getTrendingMovies();
+        getUpcomingMovies();
+        getTopRatedMovies();
+    })
+
+    const getTrendingMovies = async () => {
+        const data = await fetchTrendingMovies();
+        // console.log("gpt trending movies", data);
+        if (data && data.results) setTrending(data.results);
+        setLoading(false)
+    }
+    const getUpcomingMovies = async () => {
+        const data = await fetchUpcomingMovies();
+        // console.log("gpt upcoming movies", data);
+        if (data && data.results) setUpcoming(data.results);
+    }
+    const getTopRatedMovies = async () => {
+        const data = await fetchTopRatedMovies();
+        // console.log("gpt topRated movies", data);
+        if (data && data.results) setToprated(data.results);
+        setLoading(false)
+    }
     return (
         <View className="flex-1 bg-neutral-800">
             {/* searchbar and logo */}
@@ -35,14 +60,14 @@ export default function HomeScreen() {
 
             {
                 loading ? (
-                  <Loading/>
+                    <Loading />
                 ) : (
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 10 }}
                     >
                         {/* Trending movies carouse */}
-                        <TrendingMovies data={trending} />
+                        {TrendingMovies.length > 0 && <TrendingMovies data={trending} />}
 
                         {/* Upcoming Movies row*/}
                         <MovieList title="Upcoming" data={upcoming} />
