@@ -7,12 +7,14 @@ import TrendingMovies from '../components/trendingMovies';
 import { useState } from 'react';
 import MovieList from '../components/MovieList';
 import { useNavigation } from '@react-navigation/native';
+import Loading from './loading';
 
 const ios = Platform.OS == "ios"
 export default function HomeScreen() {
-    const [trending,setTrending] = useState([1,2,3]);
-    const [upcoming,setUpcoming] = useState([1,2,3]);
-    const [topRated,setToprated] = useState([1,2,3]);
+    const [trending, setTrending] = useState([1, 2, 3]);
+    const [upcoming, setUpcoming] = useState([1, 2, 3]);
+    const [topRated, setToprated] = useState([1, 2, 3]);
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
     return (
         <View className="flex-1 bg-neutral-800">
@@ -25,25 +27,32 @@ export default function HomeScreen() {
                         className="text-white text-2xl font-bold">
                         <Text style={styles.text}>TR</Text>movies
                     </Text>
-                    <TouchableOpacity onPress={()=>navigation.navigate('Search')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Search')}>
                         <MagnifyingGlassIcon size="30" strokeWidth={2} color="white" />
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 10 }}
-            >
-                {/* Trending movies carouse */}
-                <TrendingMovies data={trending}/>
+            {
+                loading ? (
+                  <Loading/>
+                ) : (
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: 10 }}
+                    >
+                        {/* Trending movies carouse */}
+                        <TrendingMovies data={trending} />
 
-                {/* Upcoming Movies row*/}
-                <MovieList title="Upcoming" data={upcoming}/>
+                        {/* Upcoming Movies row*/}
+                        <MovieList title="Upcoming" data={upcoming} />
 
-                 {/* Top Rated Movies row*/}
-                 <MovieList title="Top Rated" data={topRated}/>
-            </ScrollView>
+                        {/* Top Rated Movies row*/}
+                        <MovieList title="Top Rated" data={topRated} />
+                    </ScrollView>
+                )
+            }
+
         </View>
     );
 }

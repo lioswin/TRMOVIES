@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Progress from 'react-native-progress';
-import { Dimensions, Text } from 'react-native'
+import { Dimensions, Text, View } from 'react-native'
 import { theme } from '../theme';
 
 const {width,height} = Dimensions.get('window');
