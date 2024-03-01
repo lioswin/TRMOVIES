@@ -1,24 +1,50 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Dimensions, Image, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { XMarkIcon } from 'react-native-heroicons/outline';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Loading from './loading';
+import debounce from 'lodash.debounce';
+import { SearchMovies, image500 } from '../api/movieDb';
 
 const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen() {
     const navigation = useNavigation();
-    const [results, setResults] = useState([1, 2, 3, 4,7,8]);
+    const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
-
     let movieName = 'Thor The dark world';
+
+
+    const handleSearch = value => {
+        if (value && value.length > 2) {
+            setLoading(true);
+            SearchMovies({
+                query: value,
+                include_adult: 'false',
+                language: 'en-US',
+                page: '1'
+            }).then(data => {
+                setLoading(false);
+                // console.log("got Movies", data);
+                if (data && data.results) setResults(data.results);
+            })
+        } else {
+            setLoading(false);
+            setResults([]);
+        }
+    }
+
+    const handleTextDebounce = useCallback(debounce(handleSearch, 500), [])
+
+
     return (
         <SafeAreaView className="bg-neutral-800 flex-1">
             <View
                 className="mx-4 mb-3 flex-row justify-between items-center border border-neutral-500 rounded-full">
 
                 <TextInput
+                    onChangeText={handleTextDebounce}
                     placeholder='Search Movie'
                     placeholderTextColor={'lightgray'}
                     className='pb-1 pl-6 flex-1 text-base font-semibold text-white tracking-wider' />
@@ -33,9 +59,9 @@ export default function SearchScreen() {
             {/* results */}
 
             {
-                loading?(
-                    <Loading/>
-                ): results.length > 0 ? (
+                loading ? (
+                    <Loading />
+                ) : results.length > 0 ? (
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingHorizontal: 15 }}
@@ -53,10 +79,10 @@ export default function SearchScreen() {
                                             <View className="space-y-2 mb-4">
                                                 <Image
                                                     className="rounded-3xl"
-                                                    source={require('../assets/images/thor2.jpeg')}
+                                                    source={{ uri: image500(item?.poster_path) }}
                                                     style={{ width: width * 0.44, height: height * 0.33 }} />
                                                 <Text className="text-neutral-300 ml-1">
-                                                    {movieName.length > 22 ? movieName.slice(0, 22) + '...' : movieName}
+                                                    {item?.original_title?.length > 22 ?item?.original_title?.slice(0, 22) + '...' : item?.original_title}
                                                 </Text>
                                             </View>
                                         </TouchableWithoutFeedback>
@@ -68,8 +94,10 @@ export default function SearchScreen() {
                     </ScrollView>
                 ) : (
                     <View className="flex-row justify-center">
-                        <Image source={require('../assets/images/MovieTime.png')}
-                        className="h-96 w-96" />
+                        <Image
+                            source={require('../assets/images/MovieTime.png')}
+                            // source={{ uri: image500(item?.poster_path) }}
+                            className="h-96 w-96" />
                     </View>
                 )
             }

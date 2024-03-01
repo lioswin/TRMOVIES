@@ -12,6 +12,7 @@ const topRatedMoviesEndPoint = `${ApiBaseUrl}/movie/top_rated?api_key=${apiKey}`
 const MovieDetailsEndPoint = id => `${ApiBaseUrl}/movie/${id}?api_key=${apiKey}`;
 const MovieCreditsEndPoint = id => `${ApiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
 const similarMoviesEndPoint = id => `${ApiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+const searchMoviesEndPoint = `${ApiBaseUrl}/search/movie?api_key=${apiKey}`;
 
 const PersonDetailsEndPoint = id => `${ApiBaseUrl}/person/${id}?api_key=${apiKey}`;
 const PersonMoviesEndPoint = id => `${ApiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
@@ -25,7 +26,7 @@ const apiCall = async (endpoint, params) => {
     const options = {
         method: 'GET',
         url: endpoint,
-        params: params ? params : { }
+        params: params ? params : {}
     }
     try {
         const response = await axios.request(options);
@@ -65,4 +66,8 @@ export const fetchPersonDetails = id => {
 
 export const fetchPersonMovies = id => {
     return apiCall(PersonMoviesEndPoint(id));
+}
+
+export const SearchMovies = params => {
+    return apiCall(searchMoviesEndPoint, params);
 }

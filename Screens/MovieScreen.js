@@ -46,7 +46,7 @@ export default function MovieScreen() {
 
     const getSimilarMovies = async id => {
         const data = await fetchSimilarMovies(id);
-        console.log("Got cast list", data);
+        // console.log("Got cast list", data);
         if (data && data.results) setSimilarMovies(data.results)
     }
 
@@ -131,10 +131,10 @@ export default function MovieScreen() {
             </View>
 
             {/* cast */}
-            <Cast navigation={navigation} cast={cast} />
+           {cast.length>0 && <Cast navigation={navigation} cast={cast} />}
 
             {/* similar movies */}
-            <MovieList title="Similar Movies" hideSeeAll="true" data={similarMovies} />
+            {similarMovies.length>0 &&<MovieList title="Similar Movies" hideSeeAll="true" data={similarMovies} />}
         </ScrollView>
     )
 }

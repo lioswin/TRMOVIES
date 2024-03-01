@@ -24,7 +24,7 @@ export default function PersonScreen() {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         setLoading(true);
-        console.log('person:', item.id)
+        // console.log('person:', item.id)
         getPersonDetails(item.id);
         getPersonMovies(item.id);
     }, [item]);
