@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/MovieList';
 import Loading from './loading';
-import { fetchMovieCredits, fetchMovieDetails, image500 } from '../api/movieDb';
+import { fetchMovieCredits, fetchMovieDetails, fetchSimilarMovies, image500 } from '../api/movieDb';
 
 var { width, height } = Dimensions.get('window');
 const ios = Platform.OS == "ios"
@@ -28,6 +28,7 @@ export default function MovieScreen() {
         setLoading(true);
         getMovieDetails(item.id);
         getMovieCredits(item.id);
+        getSimilarMovies(item.id);
     }, [item])
 
     const getMovieDetails = async id => {
@@ -41,6 +42,12 @@ export default function MovieScreen() {
         const data = await fetchMovieCredits(id);
         // console.log("Got cast list", data);
         if (data && data.cast) setCast(data.cast)
+    }
+
+    const getSimilarMovies = async id => {
+        const data = await fetchSimilarMovies(id);
+        console.log("Got cast list", data);
+        if (data && data.results) setSimilarMovies(data.results)
     }
 
     return (
