@@ -17,7 +17,7 @@ export default function AllUpcoming() {
   const [UpcomingMovies, setUpcomingmovies] = useState([]);
 
   useEffect(() => {
-    console.log(UpcomingMovies);
+    // console.log(UpcomingMovies);
     getAllUpcomingMovies();
     // Fetch the upcoming movies from the API here
   }, []);
