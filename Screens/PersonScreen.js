@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView, Dimensions, Platform, SafeAreaView, TouchableOpacity, Image, Text } from 'react-native'
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import { HeartIcon } from 'react-native-heroicons/solid';
-import { styles } from '../theme';
+import { styles, theme } from '../theme';
 import { View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import MovieList from '../components/MovieList';
