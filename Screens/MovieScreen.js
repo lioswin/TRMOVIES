@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/MovieList';
 import Loading from './loading';
-import { fetchMovieDetails, image500 } from '../api/movieDb';
+import { fetchMovieCredits, fetchMovieDetails, image500 } from '../api/movieDb';
 
 var { width, height } = Dimensions.get('window');
 const ios = Platform.OS == "ios"
@@ -20,13 +20,14 @@ export default function MovieScreen() {
     const [isFavourite, toggleFavourite] = useState(false);
     const navigation = useNavigation();
     const [cast, setCast] = useState([1, 2, 3, 4]);
-    const [similarMovies, setSimilarMovies] = useState([1,2,3,4]);
+    const [similarMovies, setSimilarMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [Movie, setmovie] = useState({})
     useEffect(() => {
         // console.log('itemID', item.id)
         setLoading(true);
         getMovieDetails(item.id);
+        getMovieCredits(item.id);
     }, [item])
 
     const getMovieDetails = async id => {
@@ -35,7 +36,13 @@ export default function MovieScreen() {
         if (data) setmovie(data);
         setLoading(false);
     }
-    
+
+    const getMovieCredits = async id => {
+        const data = await fetchMovieCredits(id);
+        // console.log("Got cast list", data);
+        if (data && data.cast) setCast(data.cast)
+    }
+
     return (
         <ScrollView
             contentContainerStyle={{ marginBottom: 20 }}
@@ -54,7 +61,7 @@ export default function MovieScreen() {
 
                 {
                     loading ? (
-                        <Loading/>
+                        <Loading />
                     ) : (
                         <View>
                             <Image
@@ -85,27 +92,34 @@ export default function MovieScreen() {
                     {Movie.title}
                 </Text>
                 {/* status releasedate runtime */}
-                <Text className="text-neutral-400 font-semibold text-base text-center">
-                    Released {Movie.release_date}
-                </Text>
+
+                {
+                    Movie?.id ? (
+                        <Text className="text-neutral-400 font-semibold text-base text-center">
+                            {Movie?.status} &#8226; {Movie?.release_date.split('-')[0]} | {Movie.runtime} min
+                        </Text>
+                    ) : null
+                }
+
 
                 {/* genres */}
 
                 <View className="flex-row justify-center mx-4 space-x-2" >
-                    <Text className="text-neutral-400 font-semibold text-base text-center">
-                        Action 	&#8226;
-                    </Text>
-                    <Text className="text-neutral-400 font-semibold text-base text-center">
-                        Thrill 	&#8226;
-                    </Text>
-                    <Text className="text-neutral-400 font-semibold text-base text-center">
-                        Comedy	&#8226;
-                    </Text>
+                    {Movie?.genres?.map((genre, index) => {
+
+                        let showDot = index + 1 != Movie?.genres.length;
+                        return (
+                            <Text className="text-neutral-400 font-semibold text-base text-center">
+                                {genre?.name}{showDot ? ' |' : null}
+                            </Text>
+                        )
+                    })}
+
                 </View>
 
                 {/* description */}
                 <Text className="text-neutral-400 mx-4 tracking-wide">
-                   {Movie.overview}
+                    {Movie.overview}
                 </Text>
             </View>
 
