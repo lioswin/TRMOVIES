@@ -20,9 +20,9 @@ export default function HomeScreen() {
 
     useEffect(() => {
         getTrendingMovies();
-        // getUpcomingMovies();
-        // getTopRatedMovies();
-    })
+        getUpcomingMovies();
+        getTopRatedMovies();
+    }, []);
 // uki uncomment hiz funtion hapo mbili ,hiyo error itatokea and navigation between pages itaanza kusumbua ,nb:I have coded with react native but i cant say am competent at all 
     
     const getTrendingMovies = async () => {
