@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { image185, image500 } from '../api/movieDb';
 
 var { width, height } = Dimensions.get('window');
-export default function MovieList({ title, data, hideSeeAll }) {
+export default function MovieList({ title, data, hideSeeAll,location }) {
   let movieName = 'Dune Part two';
   const navigation = useNavigation();
   return (
@@ -14,7 +14,8 @@ export default function MovieList({ title, data, hideSeeAll }) {
         <Text className="text-white text-xl">{title}</Text>
         {
           !hideSeeAll && (
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={() => navigation.push(location)}>
               <Text style={styles.text} className="text-lg">See All</Text>
             </TouchableOpacity>
           )
