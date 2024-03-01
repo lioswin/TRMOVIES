@@ -13,17 +13,18 @@ import { fetchTopRatedMovies, fetchTrendingMovies, fetchUpcomingMovies } from '.
 const ios = Platform.OS == "ios"
 export default function HomeScreen() {
     const [trending, setTrending] = useState([]);
-    const [upcoming, setUpcoming] = useState([]);
-    const [topRated, setToprated] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [upcoming, setUpcoming] = useState([1,2,3,4]);
+    const [topRated, setToprated] = useState([1,2,3,4,]);
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
 
     useEffect(() => {
         getTrendingMovies();
-        getUpcomingMovies();
-        getTopRatedMovies();
+        // getUpcomingMovies();
+        // getTopRatedMovies();
     })
-
+// uki uncomment hiz funtion hapo mbili ,hiyo error itatokea and navigation between pages itaanza kusumbua ,nb:I have coded with react native but i cant say am competent at all 
+    
     const getTrendingMovies = async () => {
         const data = await fetchTrendingMovies();
         // console.log("gpt trending movies", data);

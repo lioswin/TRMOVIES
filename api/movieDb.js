@@ -6,6 +6,14 @@ const ApiBaseUrl = `https://api.themoviedb.org/3`;
 const trendingMoviesEndPoint = `${ApiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
 const upcomingMoviesEndPoint = `${ApiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 const topRatedMoviesEndPoint = `${ApiBaseUrl}/movie/top_rated?api_key=${apiKey}`;
+
+
+// dynamic endpoints
+const MovieDetailsEndPoint = id => `${ApiBaseUrl}/movie/${id}?api_key=${apiKey}`;
+const MovieCreditsEndPoint = id => `${ApiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
+const similarMoviesEndPoint = id => `${ApiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+
+
 export const image500 = path => path ? `https://image.tmdb.org/t/p/w500${path}` : null
 export const image342 = path => path ? `https://image.tmdb.org/t/p/w342${path}` : null
 export const image185 = path => path ? `https://image.tmdb.org/t/p/w185${path}` : null
@@ -14,7 +22,7 @@ const apiCall = async (endpoint, params) => {
     const options = {
         method: 'GET',
         url: endpoint,
-        params: params ? params : {}
+        params: params ? params : { }
     }
     try {
         const response = await axios.request(options);
@@ -34,4 +42,16 @@ export const fetchUpcomingMovies = () => {
 
 export const fetchTopRatedMovies = () => {
     return apiCall(topRatedMoviesEndPoint);
+}
+
+export const fetchMovieDetails = id => {
+    return apiCall(MovieDetailsEndPoint(id));
+}
+
+export const fetchSimilarMovies = id => {
+    return apiCall(similarMoviesEndPoint(id));
+}
+
+export const fetchMovieCredits = id => {
+    return apiCall(MovieCreditsEndPoint(id));
 }

@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/MovieList';
 import Loading from './loading';
+import { fetchMovieDetails, image500 } from '../api/movieDb';
 
 var { width, height } = Dimensions.get('window');
 const ios = Platform.OS == "ios"
@@ -19,11 +20,22 @@ export default function MovieScreen() {
     const [isFavourite, toggleFavourite] = useState(false);
     const navigation = useNavigation();
     const [cast, setCast] = useState([1, 2, 3, 4]);
-    const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4]);
+    const [similarMovies, setSimilarMovies] = useState([1,2,3,4]);
     const [loading, setLoading] = useState(false);
+    const [Movie, setmovie] = useState({})
     useEffect(() => {
-        // call the movie details
+        // console.log('itemID', item.id)
+        setLoading(true);
+        getMovieDetails(item.id);
     }, [item])
+
+    const getMovieDetails = async id => {
+        const data = await fetchMovieDetails(id);
+        // console.log('got movie details',data);
+        if (data) setmovie(data);
+        setLoading(false);
+    }
+    
     return (
         <ScrollView
             contentContainerStyle={{ marginBottom: 20 }}
@@ -32,7 +44,7 @@ export default function MovieScreen() {
             {/* back button and movie poster */}
             <View className="w-full">
                 <SafeAreaView className={"absolute z-20 w-full flex-row justify-between items-center px-4 " + topMargin}>
-                    <TouchableOpacity onPress={()=>navigation.goBack()} style={styles.background} className="rounded-xl p-1">
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.background} className="rounded-xl p-1">
                         <ChevronLeftIcon size="28" strokeWidth={2.5} color="white" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => toggleFavourite(!isFavourite)}>
@@ -42,11 +54,12 @@ export default function MovieScreen() {
 
                 {
                     loading ? (
-                        <Loading />
+                        <Loading/>
                     ) : (
                         <View>
                             <Image
-                                source={require("../assets/images/thor2.jpeg")}
+                                // source={require("../assets/images/thor2.jpeg")}
+                                source={{ uri: image500(Movie?.poster_path) }}
                                 style={{ width, height: height * 0.55 }}
                             />
                             <LinearGradient
@@ -69,11 +82,11 @@ export default function MovieScreen() {
                 style={{ marginTop: -(height * 0.09) }} className="space-y-3">
                 {/* title */}
                 <Text className="text-white text-center text-3xl font-bold tracking-wider">
-                    {movieName}
+                    {Movie.title}
                 </Text>
                 {/* status releasedate runtime */}
                 <Text className="text-neutral-400 font-semibold text-base text-center">
-                    Released  &#8226; 2020 	&#8226; 170 min
+                    Released {Movie.release_date}
                 </Text>
 
                 {/* genres */}
@@ -92,7 +105,7 @@ export default function MovieScreen() {
 
                 {/* description */}
                 <Text className="text-neutral-400 mx-4 tracking-wide">
-                    When the Dark Elves attempt to plunge the universe into darkness, Thor must embark on a perilous and personal journey that will reunite him with doctor Jane Foster
+                   {Movie.overview}
                 </Text>
             </View>
 
