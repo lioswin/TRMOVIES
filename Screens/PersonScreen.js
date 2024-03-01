@@ -38,7 +38,7 @@ export default function PersonScreen() {
 
     const getPersonMovies = async id => {
         const data = await fetchPersonMovies(id);
-        console.log('got similar movies', data)
+        // console.log('got similar movies', data)
         if (data && data.cast) setPersonMovies(data.cast);
     }
 
@@ -72,7 +72,7 @@ export default function PersonScreen() {
                         shadowOffset: { width: 0, height: 5 },
                         shadowOpacity: 1,
                     }}>
-                        {/* abdul aziz */}
+                        {/* abdul aziz help here  */}
                         <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-500">
                             <Image
                                 // source={require("../assets/images/chris.jpeg")}
