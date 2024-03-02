@@ -6,6 +6,7 @@ const ApiBaseUrl = `https://api.themoviedb.org/3`;
 const trendingMoviesEndPoint = `${ApiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
 const upcomingMoviesEndPoint = `${ApiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 const topRatedMoviesEndPoint = `${ApiBaseUrl}/movie/top_rated?api_key=${apiKey}`;
+const authenticationEndPoint = `${ApiBaseUrl}/authentication/token/validate_with_login`;
 
 
 // dynamic endpoints
@@ -35,6 +36,31 @@ const apiCall = async (endpoint, params) => {
         console.log('error: ', error);
     }
 }
+
+const loginCall = async (endpoint, params) => {
+    const options = {
+
+    }
+}
+
+
+
+export const authenticateUser = async (loginData) => {
+    try {
+      const response = await axios.post(authenticationEndPoint, loginData, {
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json'
+        }
+      });
+  
+      console.log(response.data);
+      // Add your own login logic here
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
 export const fetchTrendingMovies = () => {
     return apiCall(trendingMoviesEndPoint);

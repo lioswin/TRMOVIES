@@ -1,9 +1,20 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { authenticateUser } from '../api/movieDb';
 // import Animated,{ FadeIn, FadeOut } from 'react-native-reanimated';
 
 export default function LoginScreen() {
+    const [email, setEmail] = useState(''); 
+    const [password, setPassword] = useState('');
+
+    const handleLogin = () => {
+        // console.log(`Email: ${email}, Password: ${password}`);
+        authenticateUser({
+          
+        });
+    };
+
     return (
         <View className="bg-white h-full w-full">
             <StatusBar style='light' />
@@ -23,14 +34,26 @@ export default function LoginScreen() {
                 {/* form */}
                 <View className="flex items-center mx-4 my-30 space-y-4">
                     <View className="bg-black/5 p-5 rounded-2xl w-full">
-                        <TextInput placeholder='Email' placeholderTextColor={'grey'} />
+                        <TextInput
+                            placeholder='Email'
+                            placeholderTextColor={'grey'}
+                            value={email}
+                            onChangeText={setEmail}
+                        />
                     </View>
                     <View className="bg-black/5 p-5 rounded-2xl w-full">
-                        <TextInput placeholder='Password' placeholderTextColor={'grey'} />
+                        <TextInput
+                            placeholder='Password'
+                            placeholderTextColor={'grey'}
+                            secureTextEntry={true}
+                            value={password}
+                            onChangeText={setPassword}
+                        />
                     </View>
                     <View className="w-full">
                         <TouchableOpacity
                             className="w-full bg-sky-400 p-3 rounded-2xl mb-3"
+                            onPress={handleLogin}
                         >
                             <Text className="text-xl font-bold text-white text-center">Login</Text>
                         </TouchableOpacity>
