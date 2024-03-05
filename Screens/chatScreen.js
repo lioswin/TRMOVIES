@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { APiUrl } from '../api/movieDb';
 import { ApiAi } from '../constants';
+import { Input, Icon } from 'react-native-elements';
 
 
 export default function chatScreen({ route }) {
@@ -49,25 +49,29 @@ export default function chatScreen({ route }) {
                 style={styles.body}
                 renderItem={({ item }) =>
                 (
-                    <View style={{ flexDirection: 'row', padding: 20, flexWrap: 'wrap' }}>
+                    <View style={{ flexDirection: 'row', paddingTop: 8, paddingBottom: 5, paddingLeft: 20, paddingRight: 20, flexWrap: 'wrap' }}>
                         <Text style={{ fontWeight: 'bold', color: '#5987eb' }}>{item.type === 'user' ? 'User ' : 'TrMovies '}</Text>
                         <Text style={styles.bot}>{item.text}</Text>
                     </View>
                 )}
             />
-            <TextInput
+            <Input
                 style={styles.input}
                 value={textInput}
                 onChangeText={text => setTextInput(text)}
                 placeholder='Ask me anything'
                 placeholderTextColor={'#5987eb'}
+                inputContainerStyle={{ paddingBottom: 30 }}
+                rightIcon={
+                    <Icon
+                        name='send'
+                        type='feather'
+                        color='#5987eb'
+                        size={40}
+                        onPress={handleSend}
+                    />
+                }
             />
-            <TouchableOpacity
-                style={styles.button}
-                onPress={handleSend}>
-                <Text style={styles.buttonText}
-                >Let's Go</Text>
-            </TouchableOpacity>
         </SafeAreaView>
     )
 }
@@ -85,6 +89,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#111827',
         alignItems: 'center',
+        justifyContent: 'center',
 
     },
     title: {
@@ -92,8 +97,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
         marginTop: 70,
-        color: '#5987eb'
-
+        color: '#5987eb',
     },
     body: {
         backgroundColor: '#111827',
@@ -106,13 +110,14 @@ const styles = StyleSheet.create({
         color: '#5987eb'
     },
     input: {
+        color: '#5987eb',
         borderWidth: 1,
         borderColor: '#5987eb',
-        width: '90%',
-        height: 60,
-        marginBottom: 10,
+        flex: 1,
+        padding: 10,
         borderRadius: 10,
-        color: '#5987eb'
+        marginRight: 10,
+        textAlign: 'center',
     },
     button: {
         backgroundColor: '#5987eb',
