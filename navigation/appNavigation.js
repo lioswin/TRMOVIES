@@ -16,13 +16,14 @@ export default function AppNavigation() {
         <NavigationContainer>
             <Stack.Navigator>
                 {/* <Stack.Screen name="Login" options={{ headerShown: false }} component={LoginScreen} /> */}
-                <Stack.Screen name="Chat" options={{ headerShown: false }} component={chatScreen} />
+                {/* <Stack.Screen name="Chat" options={{ headerShown: false }} component={chatScreen} /> */}
                 <Stack.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
                 <Stack.Screen name="Movie" options={{ headerShown: false }} component={MovieScreen} />
                 <Stack.Screen name="Person" options={{ headerShown: false }} component={PersonScreen} />
                 <Stack.Screen name="Search" options={{ headerShown: false }} component={SearchScreen} />
                 <Stack.Screen name="AllUpcoming" options={{ headerShown: false }} component={AllUpcoming} />
                 <Stack.Screen name="AllTopRated" options={{ headerShown: false }} component={AllTopRated} />
+                <Stack.Screen name="Chat" options={{ headerShown: false }} component={chatScreen} /> 
             </Stack.Navigator>
         </NavigationContainer>
     );
