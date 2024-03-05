@@ -24,7 +24,7 @@ export default function AllUpcoming() {
 
   const getAllUpcomingMovies = async () => {
     const data = await fetchUpcomingMovies();
-    console.log("gpt upcoming movies", data);
+    // console.log("gpt upcoming movies", data);
     if (data && data.results) setUpcomingmovies(data.results);
 }
 

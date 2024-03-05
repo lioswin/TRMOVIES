@@ -72,7 +72,6 @@ export default function PersonScreen() {
                         shadowOffset: { width: 0, height: 5 },
                         shadowOpacity: 1,
                     }}>
-                        {/* abdul aziz help here  */}
                         <View className="items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-500">
                             <Image
                                 // source={require("../assets/images/chris.jpeg")}
@@ -113,7 +112,7 @@ export default function PersonScreen() {
                     </View>
 
                     {/* movie list */}
-                    {personMovies.length>0 && <MovieList data={personMovies} title={"Movies"} hideSeeAll={true} />}
+                    {personMovies.length > 0 && <MovieList data={personMovies} title={"Movies"} hideSeeAll={true} />}
                 </View>
             )}
 

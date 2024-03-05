@@ -6,8 +6,7 @@ import SearchScreen from '../Screens/SearchScreen';
 import PersonScreen from '../Screens/PersonScreen';
 import AllUpcoming from '../Screens/AllUpcoming';
 import AllTopRated from '../Screens/AllTopRated';
-import LoginScreen from '../Screens/LoginScreen';
-import chatScreen from '../Screens/chatScreen';
+import ChatScreen from '../Screens/chatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +22,7 @@ export default function AppNavigation() {
                 <Stack.Screen name="Search" options={{ headerShown: false }} component={SearchScreen} />
                 <Stack.Screen name="AllUpcoming" options={{ headerShown: false }} component={AllUpcoming} />
                 <Stack.Screen name="AllTopRated" options={{ headerShown: false }} component={AllTopRated} />
-                <Stack.Screen name="Chat" options={{ headerShown: false }} component={chatScreen} /> 
+                <Stack.Screen name="Chat" options={{ headerShown: false }} component={ChatScreen} /> 
             </Stack.Navigator>
         </NavigationContainer>
     );

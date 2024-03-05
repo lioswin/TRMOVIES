@@ -123,7 +123,7 @@ export default function MovieScreen() {
 
                         let showDot = index + 1 != Movie?.genres.length;
                         return (
-                            <Text className="text-neutral-400 font-semibold text-base text-center">
+                            <Text key={index} className="text-neutral-400 font-semibold text-base text-center">
                                 {genre?.name}{showDot ? ' |' : null}
                             </Text>
                         )

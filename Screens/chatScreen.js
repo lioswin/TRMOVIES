@@ -6,12 +6,12 @@ import { ApiAi } from '../constants';
 import { Input, Icon } from 'react-native-elements';
 
 
-export default function chatScreen({ route }) {
+export default function ChatScreen({ route }) {
     const { Movie } = route.params;
     const [data, setData] = useState([]);
     const [textInput, setTextInput] = useState('')
 
-    console.log(Movie.title, Movie.overview);
+    // console.log(Movie.title, Movie.overview);
     const handleSend = async () => {
         try {
             const prompt = textInput;
