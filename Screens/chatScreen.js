@@ -2,13 +2,13 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
+import { APiUrl } from '../api/movieDb';
+import { ApiAi } from '../constants';
 
 
 export default function chatScreen({ route }) {
     const { Movie } = route.params;
     const [data, setData] = useState([]);
-    const Api = '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';
-    const APiUrl = 'https://api.openai.com/v1/chat/completions';
     const [textInput, setTextInput] = useState('')
 
     console.log(Movie.title, Movie.overview);
@@ -27,7 +27,7 @@ export default function chatScreen({ route }) {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${Api}`
+                    'Authorization': `Bearer ${ApiAi}`
                 }
             });
             const text = response.data.choices[0].message.content;
@@ -49,7 +49,7 @@ export default function chatScreen({ route }) {
                 style={styles.body}
                 renderItem={({ item }) =>
                 (
-                    <View style={{ flexDirection: 'row', padding: 20 ,flexWrap: 'wrap' }}>
+                    <View style={{ flexDirection: 'row', padding: 20, flexWrap: 'wrap' }}>
                         <Text style={{ fontWeight: 'bold', color: '#5987eb' }}>{item.type === 'user' ? 'User ' : 'TrMovies '}</Text>
                         <Text style={styles.bot}>{item.text}</Text>
                     </View>
@@ -74,12 +74,12 @@ export default function chatScreen({ route }) {
 
 
 const styles = StyleSheet.create({
-    Instruction:{
+    Instruction: {
         color: '#5987eb',
         fontWeight: 'bold',
         textAlign: 'left',
         marginLeft: 16,
-        marginRight:16
+        marginRight: 16
     },
     container: {
         flex: 1,

@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { apiKey } from '../constants';
 
+// openAi endpoint
+export const APiUrl = 'https://api.openai.com/v1/chat/completions';
+
 // endpoints 
 const ApiBaseUrl = `https://api.themoviedb.org/3`;
 const trendingMoviesEndPoint = `${ApiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
