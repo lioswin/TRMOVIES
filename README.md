@@ -17,3 +17,5 @@ Full Screen
 Copy code
 git clone https://github.com/your-username/movie-app.git
 Install the dependencies:
+
+## Not done yet
