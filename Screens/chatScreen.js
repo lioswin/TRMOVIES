@@ -1,49 +1,56 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
 
 
-export default function chatScreen() {
+export default function chatScreen({ route }) {
+    const { Movie } = route.params;
     const [data, setData] = useState([]);
-    const Api = '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';
-    const APiUrl = 'https://api.openai.com/v1/chat/completions'
+    const Api = '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';
+    const APiUrl = 'https://api.openai.com/v1/chat/completions';
     const [textInput, setTextInput] = useState('')
 
+    console.log(Movie.title, Movie.overview);
     const handleSend = async () => {
         try {
-          const prompt = textInput;
-          const messages = [{ role: "user", content: prompt }];
-          const response = await axios.post(APiUrl, {
-            model: "gpt-3.5-turbo",
-            messages: messages,
-            max_tokens: 1024,
-            temperature: 0.5,
-          }, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${Api}`
-            }
-          });
-          const text = response.data.choices[0].message.content;
-          setData([...data, { type: 'user', 'text': textInput }, { type: 'bot', 'text': text }])
-          setTextInput("");
+            const prompt = textInput;
+            const messages = [
+                { role: "system", content: `You are a helpful assistant that provides information about movies. The movie being discussed is ${Movie.title} with the plot: ${Movie.overview}.` },
+                { role: "user", content: prompt },
+            ];
+            const response = await axios.post(APiUrl, {
+                model: "gpt-3.5-turbo",
+                messages: messages,
+                max_tokens: 1024,
+                temperature: 0.5,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${Api}`
+                }
+            });
+            const text = response.data.choices[0].message.content;
+            setData([...data, { type: 'user', 'text': prompt }, { type: 'bot', 'text': text }])
+            setTextInput("");
         } catch (error) {
-          console.error("Erro occurred:", error.response.data.error);
+            console.error("Erro occurred:", error.response.data.error);
         }
     }
 
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>TRMovieChat</Text>
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.title}>TRChat</Text>
+            <Text style={styles.Instruction}>Ask anything about the Movie {Movie.title} and you will be answered</Text>
             <FlatList
                 data={data}
                 keyExtractor={(item, index) => index.toString()}
                 style={styles.body}
                 renderItem={({ item }) =>
                 (
-                    <View style={{ flexDirection: 'row', padding: 20 }}>
-                        <Text style={{ fontWeight: 'bold', color: item.type === 'user ' ? 'green' : '#5987eb' }}>{item.type === 'user' ? 'User ' : 'TrMovies '}</Text>
+                    <View style={{ flexDirection: 'row', padding: 20 ,flexWrap: 'wrap' }}>
+                        <Text style={{ fontWeight: 'bold', color: '#5987eb' }}>{item.type === 'user' ? 'User ' : 'TrMovies '}</Text>
                         <Text style={styles.bot}>{item.text}</Text>
                     </View>
                 )}
@@ -61,12 +68,19 @@ export default function chatScreen() {
                 <Text style={styles.buttonText}
                 >Let's Go</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     )
 }
 
 
 const styles = StyleSheet.create({
+    Instruction:{
+        color: '#5987eb',
+        fontWeight: 'bold',
+        textAlign: 'left',
+        marginLeft: 16,
+        marginRight:16
+    },
     container: {
         flex: 1,
         backgroundColor: '#111827',
@@ -78,7 +92,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
         marginTop: 70,
-        color:'#5987eb'
+        color: '#5987eb'
 
     },
     body: {
@@ -88,8 +102,8 @@ const styles = StyleSheet.create({
     },
     bot: {
         fontSize: 16,
-        backgroundColor:'#1F2937',
-        color:'#5987eb'
+        backgroundColor: '#1F2937',
+        color: '#5987eb'
     },
     input: {
         borderWidth: 1,
@@ -98,7 +112,7 @@ const styles = StyleSheet.create({
         height: 60,
         marginBottom: 10,
         borderRadius: 10,
-        color:'#5987eb'
+        color: '#5987eb'
     },
     button: {
         backgroundColor: '#5987eb',
