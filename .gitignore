@@ -34,3 +34,6 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+constants/index.js
+constants/index.js
+constants/index.js

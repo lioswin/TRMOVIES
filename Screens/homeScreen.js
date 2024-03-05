@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Platform, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, Platform, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { styles } from '../theme';
 import TrendingMovies from '../components/trendingMovies';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import MovieList from '../components/MovieList';
 import { useNavigation } from '@react-navigation/native';
 import Loading from './loading';
@@ -16,9 +16,11 @@ export default function HomeScreen() {
     const [upcoming, setUpcoming] = useState([1, 2, 3, 4]);
     const [topRated, setToprated] = useState([1, 2, 3, 4,]);
     const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const navigation = useNavigation();
 
     useEffect(() => {
+        setRefreshing(true);
         getTrendingMovies();
         getUpcomingMovies();
         getTopRatedMovies();
@@ -30,6 +32,7 @@ export default function HomeScreen() {
         // console.log("gpt trending movies", data);
         if (data && data.results) setTrending(data.results);
         setLoading(false)
+        setRefreshing(false)
     }
     const getUpcomingMovies = async () => {
         const data = await fetchUpcomingMovies();
@@ -66,15 +69,28 @@ export default function HomeScreen() {
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 10 }}
+                        ref={useRef()}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={async () => {
+                                    setRefreshing(true);
+                                    await getTrendingMovies();
+                                    await getUpcomingMovies();
+                                    await getTopRatedMovies();
+                                    setRefreshing(false);
+                                }}
+                            />
+                        }
                     >
                         {/* Trending movies carouse */}
-                        {TrendingMovies.length > 0 && <TrendingMovies data={trending} />}
+                        {TrendingMovies.length > 0 && <TrendingMovies refreshing={refreshing} data={trending} />}
 
                         {/* Upcoming Movies row*/}
-                         <MovieList title="Upcoming" data={upcoming} location={'AllUpcoming'} />
+                        <MovieList title="Upcoming" refreshing={refreshing} data={upcoming} location={'AllUpcoming'} />
 
                         {/* Top Rated Movies row*/}
-                         <MovieList title="Top Rated" data={topRated} location={'AllTopRated'}/>
+                        <MovieList title="Top Rated" refreshing={refreshing} data={topRated} location={'AllTopRated'} />
                     </ScrollView>
                 )
             }
