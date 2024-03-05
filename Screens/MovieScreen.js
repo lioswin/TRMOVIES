@@ -2,13 +2,14 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View, Platform, Dimensions, Image } from 'react-native'
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
-import { HeartIcon } from 'react-native-heroicons/solid';
+import { ChatBubbleOvalLeftEllipsisIcon, HeartIcon } from 'react-native-heroicons/solid';
 import { styles, theme } from '../theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/MovieList';
 import Loading from './loading';
 import { fetchMovieCredits, fetchMovieDetails, fetchSimilarMovies, image500 } from '../api/movieDb';
+import chatScreen from './chatScreen';
 
 var { width, height } = Dimensions.get('window');
 const ios = Platform.OS == "ios"
@@ -94,6 +95,12 @@ export default function MovieScreen() {
 
             <View
                 style={{ marginTop: -(height * 0.09) }} className="space-y-3">
+                {/* chat button */}
+                <SafeAreaView className={"absolute z-20 w-full flex-row justify-between items-center px-4 " + topMargin}>
+                    <TouchableOpacity onPress={() => navigation.push('Chat',{Movie})}>
+                        <ChatBubbleOvalLeftEllipsisIcon size="50" strokeWidth={2.5} color='#5987eb' />
+                    </TouchableOpacity>
+                </SafeAreaView>
                 {/* title */}
                 <Text className="text-white text-center text-3xl font-bold tracking-wider">
                     {Movie.title}
@@ -131,10 +138,10 @@ export default function MovieScreen() {
             </View>
 
             {/* cast */}
-           {cast.length>0 && <Cast navigation={navigation} cast={cast} />}
+            {cast.length > 0 && <Cast navigation={navigation} cast={cast} />}
 
             {/* similar movies */}
-            {similarMovies.length> 0 &&<MovieList title="Similar Movies" hideSeeAll="true" data={similarMovies} />}
+            {similarMovies.length > 0 && <MovieList title="Similar Movies" hideSeeAll="true" data={similarMovies} />}
         </ScrollView>
     )
 }
