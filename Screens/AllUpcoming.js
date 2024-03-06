@@ -26,7 +26,7 @@ export default function AllUpcoming() {
     const data = await fetchUpcomingMovies();
     // console.log("gpt upcoming movies", data);
     if (data && data.results) setUpcomingmovies(data.results);
-}
+  }
 
   return (
     <ScrollView
@@ -54,10 +54,10 @@ export default function AllUpcoming() {
                     className="rounded-3xl"
                     // source={require("../assets/images/thor2.jpeg")}
                     source={{ uri: image500(item?.poster_path) }}
-                    style ={{ width: width * 0.44, height: height * 0.33 }}
+                    style={{ width: width * 0.44, height: height * 0.33 }}
                   />
                   <Text className="text-neutral-300 ml-3">
-                    {item?.original_title?.length > 22 ? item?.original_title?.slice(0, 22) + '...' : item?.original_title}
+                    {item?.original_title?.length > 10 ? item?.original_title?.slice(0, 10) + '...' : item?.original_title}
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
