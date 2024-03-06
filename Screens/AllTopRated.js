@@ -57,7 +57,7 @@ export default function AllTopRated() {
                                         style={{ width: width * 0.44, height: height * 0.33 }}
                                     />
                                     <Text className="text-neutral-300 ml-3">
-                                        {item?.original_title?.length > 22 ? item?.original_title?.slice(0, 15) + '...' : item?.original_title}
+                                        {item?.original_title?.length > 10 ? item?.original_title?.slice(0, 10) + '...' : item?.original_title}
                                     </Text>
                                 </View>
                             </TouchableWithoutFeedback>
