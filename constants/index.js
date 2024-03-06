@@ -1,5 +1,5 @@
-export const apiKey = 'bc0a009593c2d967ebfc80ab6952dec8'
-export const ApiAi = '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';
+export const apiKey = ''
+export const ApiAi = '';
 
 export const MoviesData = [
     {
